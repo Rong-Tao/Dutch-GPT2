@@ -1,1 +1,4 @@
 dataset/dutch.hf/
+dataset/dutch.txt
+dataset/intotxt.ipynb
+test.ipynb
