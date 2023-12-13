@@ -3,4 +3,5 @@ dataset/Tokenized_dataset.hf/
 dataset/Tokenized_dataset.hf.zip
 dataset/dutch.txt
 dataset/intotxt.ipynb
+**/__pycache__/
 test.ipynb

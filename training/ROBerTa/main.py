@@ -41,10 +41,11 @@ def train(rank, world_size):
     for epoch in range(EPOCH_NUM):
         model.train()
         train_loss = 0.0
-        for batch_idx, (img, gt) in enumerate(train_loader):
-            img, gt = img.cuda(), gt.cuda()
-            out = model(img)
-            loss = criterion(out, gt)
+        for batch_idx, (input_id, mask, target_id) in enumerate(train_loader):
+            input_id, mask, target_id = input_id.cuda(), mask.cuda(), target_id.cuda()
+            out = model(input_id, attention_mask=mask)
+            logits = out.logits.view(-1, out.logits.size(-1))
+            loss = criterion(logits, target_id.view(-1))
 
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
@@ -57,10 +58,11 @@ def train(rank, world_size):
         model.eval()
         validation_loss = 0.0
         with torch.no_grad():
-            for val_batch_idx, (val_img, val_gt) in enumerate(validation_loader):
-                val_img, val_gt = val_img.cuda(), val_gt.cuda()
-                val_out = model(val_img)
-                val_loss = criterion(val_out, val_gt)
+            for val_batch_idx, (val_input_id, val_mask, val_target_id) in enumerate(validation_loader):
+                val_input_id, val_mask, val_target_id = val_input_id.cuda(), val_mask.cuda(), val_target_id.cuda()
+                val_outputs = model(val_input_id, attention_mask=val_mask)
+                val_logits = val_outputs.logits.view(-1, val_outputs.logits.size(-1))
+                val_loss = criterion(val_logits, val_target_id.view(-1))
                 validation_loss += val_loss.item()
 
         validation_loss /= len(validation_loader)

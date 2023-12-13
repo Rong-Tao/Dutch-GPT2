@@ -7,11 +7,12 @@ BATCH_SIZE = 64
 EPOCH_NUM = 50
 TRAIN_VAL_RATIO = 0.95 # 0-1
 
-criterion = torch.nn.CrossEntropyLoss()
+criterion = torch.nn.CrossEntropyLoss(ignore_index=1)
 
 def get_optimizer(model):
-    optimizer = optim.AdamW(model.parameters(), lr=0.001)
-    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=10)
+    optimizer = optim.AdamW(model.parameters(), lr=1e-4)
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=EPOCH_NUM)
+
     return optimizer, scheduler
 
 def batch_logger(writer, batch_idx, step_num, loss):
