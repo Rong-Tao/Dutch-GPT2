@@ -1,4 +1,6 @@
 dataset/dutch.hf/
+dataset/Tokenized_dataset.hf/
+dataset/Tokenized_dataset.hf.zip
 dataset/dutch.txt
 dataset/intotxt.ipynb
 test.ipynb

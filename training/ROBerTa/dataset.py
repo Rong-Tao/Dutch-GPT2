@@ -12,7 +12,7 @@ def get_dataset():
 
 
 def get_loaders(world_size, rank, batch_size, split_ratio):
-    full_dataset = load_from_disk("../../dataset/Tokenized_dataset.hf")
+    full_dataset = get_dataset()
     full_dataset.set_format('torch')
     train_size = int(split_ratio * len(full_dataset))
     validation_size = len(full_dataset) - train_size
