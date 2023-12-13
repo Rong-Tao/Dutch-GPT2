@@ -3,6 +3,7 @@ from torch.utils.tensorboard import SummaryWriter
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.distributed.elastic.multiprocessing.errors import record
+from transformers import RobertaTokenizerFast, pipeline
 import os
 
 ## Import our own scrips ##
@@ -36,7 +37,9 @@ def train(rank, world_size):
 
     # Initialize SummaryWriter for rank 0
     if rank == 0:
+        tokenizer = RobertaTokenizerFast.from_pretrained("../../tokenizer/bpe-post", max_len=512)
         writer = SummaryWriter(log_dir=tensor_bd_dir)
+        fill_mask = pipeline("fill-mask", model=model, tokenizer=tokenizer)
 
     for epoch in range(EPOCH_NUM):
         model.train()
@@ -53,7 +56,7 @@ def train(rank, world_size):
             train_loss += loss.item()
 
             if rank == 0:
-                batch_logger(writer, batch_idx, epoch * len(train_loader) + batch_idx, loss.item())
+                batch_logger(model, writer, batch_idx, epoch * len(train_loader) + batch_idx, loss.item(), tokenizer)
 
         model.eval()
         validation_loss = 0.0

@@ -15,9 +15,32 @@ def get_optimizer(model):
 
     return optimizer, scheduler
 
-def batch_logger(writer, batch_idx, step_num, loss):
+def batch_logger(model, writer, batch_idx, step_num, loss, tokenizer):
     writer.add_scalar('Batch Training Loss', loss, step_num)
-    #add extra if you want
+    generate_text(step_num, model, writer, tokenizer, max_length=100)
+
+
+
+def generate_text(step_num, model, writer, tokenizer, max_length=100):
+    model.eval()
+
+    input_ids = tokenizer.encode("<s>ik", return_tensors="pt").to(model.device)
+
+    output_sequences = model.generate(
+        input_ids=input_ids,
+        max_length=max_length,
+        pad_token_id=tokenizer.pad_token_id,
+        eos_token_id=tokenizer.eos_token_id
+    )
+
+    if output_sequences.is_cuda:
+        output_sequences = output_sequences.cpu()
+
+    generated_text = tokenizer.decode(output_sequences[0], skip_special_tokens=True)
+    
+    writer.add_text('Generated Text', generated_text, step_num)
+
+
 
 def epoch_logger_saver(model, writer, epoch, mean_trainloss, validation_loss, best_loss, state_dict_dir):
     writer.add_scalar('Epoch Training Loss', mean_trainloss, epoch)
