@@ -28,7 +28,7 @@ if rank == 0:
 
 # Training
 def train(rank, world_size):
-    model = get_model.cuda()
+    model = get_model().cuda()
     model = DDP(model)
     optimizer, scheduler = get_optimizer(model)
     train_loader, validation_loader = get_loaders(world_size, rank, BATCH_SIZE, TRAIN_VAL_RATIO)
@@ -39,7 +39,6 @@ def train(rank, world_size):
     if rank == 0:
         tokenizer = RobertaTokenizerFast.from_pretrained("../../tokenizer/bpe-post", max_len=512)
         writer = SummaryWriter(log_dir=tensor_bd_dir)
-        fill_mask = pipeline("fill-mask", model=model, tokenizer=tokenizer)
 
     for epoch in range(EPOCH_NUM):
         model.train()
