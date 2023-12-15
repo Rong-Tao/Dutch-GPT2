@@ -5,7 +5,7 @@
 #SBATCH --exclusive
 #SBATCH --mem=0
 #SBATCH --gres=dcu:4
-#SBATCH -N 2
+#SBATCH -N 4
 ##SBATCH -x
 base_log_dir=./log/$SLURM_JOB_ID
 mkdir -p ./log
@@ -42,7 +42,7 @@ module switch compiler/rocm/dtk-23.04
 
 srun torchrun \
     --nnodes ${SLURM_NNODES} \
-    --nproc_per_node 4 \
+    --nproc_per_node 2 \
     --node_rank $NODE_RANK \
     --rdzv_id $RANDOM \
     --rdzv_backend c10d \
