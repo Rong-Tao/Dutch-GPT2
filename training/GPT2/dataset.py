@@ -28,7 +28,7 @@ def get_loaders(world_size, rank, batch_size, split_ratio):
     train_dataset, validation_dataset = random_split(full_dataset, [train_size, validation_size])
 
     train_sampler = DistributedSampler(train_dataset, num_replicas=world_size, rank=rank)
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, sampler=train_sampler)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, sampler=train_sampler, num_workers=6)
 
     validation_sampler = DistributedSampler(validation_dataset, num_replicas=world_size, rank=rank)
     validation_loader = DataLoader(validation_dataset, batch_size=batch_size, sampler=validation_sampler)
