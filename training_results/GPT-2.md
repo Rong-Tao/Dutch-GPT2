@@ -8,6 +8,8 @@
 - **Learning Rate Schedule**: 1e-4, `CosineAnnealingLR(optimizer, T_max=93192)`
 - **Batch Size**: 16 GPU *8 batch_size * 2 gradient accumulation = 256
 - **Epoch**: 1, contains roughly 180k steps, but stop since the loss seemed saturated already
+- **Hard ware**: 16 CHinese-AMD card that is of NVIDIA V100 equivalent computing power
+- **Computation Cost**: 685 `GPU hours` and 5,481 `CPU hours` which costs `￥1,863`
 
 ## Observations and Analysis
 
