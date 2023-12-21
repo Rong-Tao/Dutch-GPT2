@@ -3,5 +3,6 @@ dataset/Tokenized_dataset.hf/
 dataset/Tokenized_dataset.hf.zip
 dataset/dutch.txt
 dataset/intotxt.ipynb
+dataset/GPT2-english-weights
 **/__pycache__/
 test.ipynb
