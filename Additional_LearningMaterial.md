@@ -13,3 +13,11 @@ As the project is primarily for learning purposes, I will document the links I'v
 ## Alpaca Model Adoption
 
 - [How To Fine-Tune the Alpaca Model For Any Language | ChatGPT Alternative](https://www.youtube.com/watch?v=yTROqe8T_eA&t=2s&ab_channel=MartinThissen)
+
+## Intro of Training on multiple GPUs
+
+[https://huggingface.co/docs/transformers/perf_train_gpu_many#efficient-training-on-multiple-gpus](https://huggingface.co/docs/transformers/perf_train_gpu_many)
+
+## Free Hosting of your model
+
+[Build & Share Delightful Machine Learning Apps](https://www.gradio.app/)
