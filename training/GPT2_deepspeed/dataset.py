@@ -19,18 +19,3 @@ class GPT2Dataset(Dataset):
         targets = input_id[1:]
         targets = torch.cat([targets, torch.tensor([1])], dim=0)
         return input_id, attention_mask, targets
-
-
-def get_loaders(world_size, rank, batch_size, split_ratio):
-    full_dataset = GPT2Dataset()
-    train_size = int(split_ratio * len(full_dataset))
-    validation_size = len(full_dataset) - train_size
-    train_dataset, validation_dataset = random_split(full_dataset, [train_size, validation_size])
-
-    train_sampler = DistributedSampler(train_dataset, num_replicas=world_size, rank=rank)
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, sampler=train_sampler, num_workers=6)
-
-    validation_sampler = DistributedSampler(validation_dataset, num_replicas=world_size, rank=rank)
-    validation_loader = DataLoader(validation_dataset, batch_size=batch_size, sampler=validation_sampler)
-
-    return train_loader, validation_loader

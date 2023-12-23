@@ -1,4 +1,5 @@
 import os
+import deepspeed
 import argparse
 import torch
 import torch.optim as optim
@@ -54,6 +55,7 @@ def epoch_logger_saver(model, writer, epoch, mean_trainloss, validation_loss, be
 def arg():
     parser = argparse.ArgumentParser(description='Pass log directories to main script.') 
     parser.add_argument('--output_log', type=str, help='Path to the output log directory.')
+    parser = deepspeed.add_config_arguments(parser)
     args = parser.parse_args()
     result_dir = args.output_log 
     tensor_bd_dir = os.path.join(result_dir, 'tensorboard')
@@ -61,4 +63,4 @@ def arg():
     os.makedirs(result_dir, exist_ok=True) 
     os.makedirs(tensor_bd_dir, exist_ok=True)
     os.makedirs(state_dict_dir, exist_ok=True)
-    return result_dir, state_dict_dir, tensor_bd_dir
+    return args, result_dir, state_dict_dir, tensor_bd_dir
