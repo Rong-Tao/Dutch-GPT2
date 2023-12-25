@@ -16,8 +16,9 @@ def get_optimizer(model):
 
     return optimizer, scheduler
 
-def batch_logger(model, writer, batch_idx, step_num, loss, tokenizer):
+def batch_logger(model, writer, lr, batch_idx, step_num, loss, tokenizer):
     writer.add_scalar('Batch Training Loss', loss, step_num)
+    writer.add_scalar('Learning Rate', lr, step_num)
     generate_text(step_num, model, writer, tokenizer, max_length=100)
 
 

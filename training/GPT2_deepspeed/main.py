@@ -54,14 +54,9 @@ def train(rank, world_size):
             out = model(input_id, attention_mask=mask, labels=target_id)
             model.backward(out.loss)
             model.step()
-
+            lr = model.get_lr()
             if rank == 0:
-                batch_logger(model.module, writer, batch_idx, epoch * len(train_loader) + batch_idx, out.loss.item(), tokenizer)      
-                             
-            train_loss += out.loss.item()
-        
-        if rank == 0:
-            best_loss = epoch_logger_saver(model, writer, epoch, train_loss/len(train_loader), None, best_loss, state_dict_dir)
+                batch_logger(model.module, writer, lr, batch_idx, epoch * len(train_loader) + batch_idx, out.loss.item(), tokenizer)      
 
     if rank == 0:
         writer.close()

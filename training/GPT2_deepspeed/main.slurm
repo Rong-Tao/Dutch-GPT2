@@ -39,12 +39,14 @@ module load compiler/devtoolset/7.3.1
 module load mpi/hpcx/2.11.0/gcc-7.3.1
 module switch compiler/rocm/dtk-23.04
 
-
 srun torchrun \
     --nnodes ${SLURM_NNODES} \
-    --nproc_per_node 2 \
+    --nproc_per_node 4 \
     --node_rank $NODE_RANK \
     --rdzv_id $RANDOM \
     --rdzv_backend c10d \
     --rdzv_endpoint $head_node_ip:29500 \
-    main.py --output_log $output_log
+    train.py \
+    --output_log $output_log \
+    --deepspeed \
+    --deepspeed_config ds_config.json

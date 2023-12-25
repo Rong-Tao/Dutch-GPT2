@@ -1,0 +1,33 @@
+{
+    "train_batch_size": 32,
+    "steps_per_print": 1000,
+    "optimizer": {
+      "type": "AdamW",
+      "params": {
+        "lr": 1e-4,
+        "weight_decay": 0.01
+      }
+    },
+    "scheduler": {
+        "type": "WarmupDecayLR",
+        "params": {
+            "warmup_min_lr": 0,
+            "warmup_max_lr": 0.001,
+            "total_num_steps": 49000,
+            "warmup_num_steps": 1000
+        }
+    },
+    "zero_allow_untested_optimizer": true,
+    "gradient_clipping": 1.0,
+    "zero_optimization": {
+        "stage": 3,
+        "allgather_partitions": true,
+        "allgather_bucket_size": 1e6,
+        "reduce_scatter": true,
+        "reduce_bucket_size": 1e6,
+        "contiguous_gradients": true,
+        "overlap_comm": true,
+        "stage3_max_live_parameters": 1e6
+    }
+  }
+ 
