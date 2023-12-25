@@ -4,11 +4,8 @@ import argparse
 import torch
 import torch.optim as optim
 
-BATCH_SIZE = 20
-EPOCH_NUM = 50
-TRAIN_VAL_RATIO = 0.95 # 0-1
 
-criterion = torch.nn.CrossEntropyLoss(ignore_index=1)
+EPOCH_NUM = 1
 
 def get_optimizer(model):
     optimizer = optim.AdamW(model.module.parameters(), lr=1e-4)

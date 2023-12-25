@@ -12,8 +12,8 @@ import os
 
 from model import get_model
 from dataset import GPT2Dataset
-from util import arg, get_optimizer,batch_logger, epoch_logger_saver
-from util import criterion, BATCH_SIZE, EPOCH_NUM, TRAIN_VAL_RATIO
+from util import arg, batch_logger
+from util import EPOCH_NUM
 
 ## Initialize Distributed Training #####
 def init_distributed_mode():
