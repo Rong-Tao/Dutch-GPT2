@@ -17,11 +17,15 @@ from util import EPOCH_NUM
 
 ## Initialize Distributed Training #####
 def init_distributed_mode():
+    print('init!')
     deepspeed.init_distributed(dist_backend='nccl')
     global_rank = comm.get_global_rank()
     world_size = comm.get_world_size()
     #torch.cuda.set_device(int(os.environ["LOCAL_RANK"]))
     return global_rank, world_size
+
+local_rank = int(os.environ.get("LOCAL_RANK", 0))
+torch.cuda.set_device(local_rank)
 
 rank, world_size = init_distributed_mode()
 

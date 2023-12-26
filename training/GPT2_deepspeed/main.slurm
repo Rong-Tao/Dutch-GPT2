@@ -47,6 +47,5 @@ srun torchrun \
     --rdzv_backend c10d \
     --rdzv_endpoint $head_node_ip:29500 \
     main.py \
-    --output_log $output_log \
     --deepspeed \
-    --deepspeed_config ds_config.json
+    --deepspeed_config ds_config.json \
